@@ -65,12 +65,6 @@ class DockerRegistryClient(object):
     def throw_error(self, response):
         self.logger.error("Error from DockerRegistry, HTTP Return: %s\n" % (response.getStatus()))
         self.logger.error("Detailed error: %s\n" % response.response)
-        sys.exit(1)
+        sys.exit(response.response)
 
-    def EmptyToNone(self,value):
-        if value is None:
-           return None
-        elif value.strip() == '':
-             return None
-        else:
-            return value
+

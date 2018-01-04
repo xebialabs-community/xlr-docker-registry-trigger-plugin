@@ -30,7 +30,7 @@
 
     <type type="docker.RegistryV2" extends="configuration.HttpConnection">
 
-        <property name="testImageName" category="input" required="true" description="Package to query versions for" />
+        <property name="testImageName" category="input" required="true" description="Package to query versions for" default="rhel7.3" />
  
     </type>
 
