@@ -6,6 +6,7 @@ deploy:
     secure: Q+TLn1Rf5opmdmxcfY12l1Z9geS7IK+HyGR1oZe72wC+OmzxjT4MTObjav4Yk/KA2QXhLwSqFBhRmfLSFdJL8bhsKCk/8N/v9TSTb0c2fFcHRe49wU+z4g9M76Komgywoj2gACobctotgk9rNa/704jWvE3z60vjyKpkwdwYVA6bPcxN9d20yZ2QHQh21OAGq/I4SIm4c3QkHB9CLKRCobhEZaGew62JbKlkhJCymw6ox9ScidvGcm0mynul/D2cG6ww0YlLs8PS2PqqbM7ND+/erl04fqtvp2n8w+MqRGX6Tms/wqWUeaXriSmqgeREJIhPPtTfBfQKWAmIs+M57+qAxvprdbxn+x2OyfGbNb02Mq/0IPf1Exii1km6UjctHC5TvAMEyDcWK50U5H+QWDfYVwsBdcY8Q5q5Ummia5d6D7G8x2iiRZwqvZRfpdz8DEbsnD7gMp8siazQNcO0HJ1kPWiUEPq5unxKgf8o5E0jKARNkyn99CaRccaAGGYNHFiDxaLM7zQPMnFX3dopDMNsCH2vSiYGZWQOE1HLeOHrZE6HvvuUmRVvfWHk6BYpGCJ1vm1XJgAxB/EQ/kGI+Bxh/HKteKSeXuD0LwHvpYE3olYZbBuasbSsZmVjuY3nW781NUpSvpg+mwQYzNL1CdF+uR1beOpzKlOii+1hkjQ=
   file_glob: true
   file: build/libs/*
+  skip_cleanup: true
   on:
     repo: xebialabs-community/xlr-docker-registry-trigger-plugin
     all_branches: true
