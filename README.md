@@ -33,11 +33,15 @@ This plugin requires XLR 6.0.x+
 
 ## Testing ##
 
+### Start containers for testing ###
+
 This repository contains testing code that can be executed by cloning the repository on your machine. For testing you need to have a docker daemon and docker-compose running on the machine while you are test. Use Google to find out how, nothing specific to XebiaLabs or XL Release needs to be done.
 
 Once you have all prerequisies, run `./gradlew runDockerCompose` to spin up an XL Release conainer with this plugin (+ test data loaded) and a docker v2 registry container.
 
 The template in there that will trigger when a new version of an image with name 'testimage' will be pushed to the registry, which is done from your local machine.
+
+### Finish XL Release test setup ###
 
 Now open up XL Release (see docker-compose.yml which port, but at time of writing localhost:15516) go into Design > Templates, find the `registry-triggered-template` and click on it, navigate to Triggers in the white dropdown (renders default with 'Release Flow').
 
@@ -53,7 +57,11 @@ Enable it and enter the text `${imageVersion}` in the input field all the way to
 
 XL Release is set up and waiting for the new versions to appear.
 
-Pull (or build) some image from the hub. Example is ubuntu but you can use any image you like.
+### Push new versions of a testimage ###
+
+Run this on your local machine.
+
+Pull (or build) some image from the hub. Example is ubuntu but you can use any image you like. The name `testimage` is the image that the preloaded trigger is monitoring for (see screenshot above).
 
 ````
 docker pull ubuntu
@@ -76,7 +84,7 @@ A release should have triggered.
 
 ![images/triggered-release.png](images/triggered-release.png)
 
-And subsequently create new versions as such:
+And subsequently you create even more new versions as such:
 
 ````
 docker tag ubuntu localhost:5000/testimage:2
@@ -87,4 +95,4 @@ docker push localhost:5000/testimage:3
 ````
 And so on.
 
-See [here](https://docs.docker.com/registry/#basic-commands)
+For Docker Registry docs and commands, see [here](https://docs.docker.com/registry/#basic-commands)
