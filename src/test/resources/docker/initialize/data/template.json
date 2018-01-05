@@ -1,0 +1,252 @@
+[{
+   "id":"Applications\/Release704555520",
+   "type":"xlrelease.Release",
+   "$createdBy":"admin",
+   "$createdAt":"2018-01-04T23:01:25.721+0000",
+   "$lastModifiedBy":"admin",
+   "$lastModifiedAt":"2018-01-04T23:37:34.643+0000",
+   "title":"registry-triggered-template",
+   "scheduledStartDate":"2018-01-04T16:00:00Z",
+   "flagStatus":"OK",
+   "overdueNotified":false,
+   "maxConcurrentReleases":100,
+   "releaseTriggers":[
+      {
+         "id":"Applications\/Release704555520\/Trigger795643987",
+         "type":"docker.PublishedImage",
+         "$createdBy":"admin",
+         "$createdAt":"2018-01-04T23:02:39.688+0000",
+         "$lastModifiedBy":"admin",
+         "$lastModifiedAt":"2018-01-04T23:38:03.497+0000",
+         "triggerState":"",
+         "initialFire":false,
+         "title":"registry-trigger",
+         "releaseTitle":"Release triggered by new Docker image [testimage] with version ${imageVersion}",
+         "pollType":"REPEAT",
+         "periodicity":"10",
+         "enabled":true,
+         "variables":[
+            {
+               "id":"Applications\/Release704555520\/Trigger795643987\/Variable959757523",
+               "type":"xlrelease.StringVariable",
+               "$createdBy":"admin",
+               "$createdAt":"2018-01-04T23:38:03.495+0000",
+               "$lastModifiedBy":"admin",
+               "$lastModifiedAt":"2018-01-04T23:38:03.495+0000",
+               "key":"imageVersion",
+               "requiresValue":true,
+               "showOnReleaseStart":true,
+               "value":"${imageVersion}"
+            }
+         ],
+         "template":"Applications\/Release704555520",
+         "tags":[
+
+         ],
+         "imageName":"testimage",
+         "server":"Configuration\/Custom\/Configuration2139583",
+         "username":"",
+         "password":""
+      }
+   ],
+   "teams":[
+      {
+         "id":"Applications\/Release704555520\/Team792764705",
+         "type":"xlrelease.Team",
+         "teamName":"Release Admin",
+         "members":[
+
+         ],
+         "roles":[
+
+         ],
+         "permissions":[
+            "release#edit",
+            "release#reassign_task",
+            "release#start",
+            "release#edit_blackout",
+            "template#view",
+            "release#edit_security",
+            "release#abort",
+            "release#view",
+            "release#edit_task"
+         ]
+      },
+      {
+         "id":"Applications\/Release704555520\/Team796327053",
+         "type":"xlrelease.Team",
+         "teamName":"Template Owner",
+         "members":[
+            "admin"
+         ],
+         "roles":[
+
+         ],
+         "permissions":[
+            "template#edit",
+            "template#view",
+            "template#edit_security",
+            "template#create_release",
+            "template#edit_triggers"
+         ]
+      }
+   ],
+   "memberViewers":[
+
+   ],
+   "roleViewers":[
+
+   ],
+   "attachments":[
+
+   ],
+   "phases":[
+      {
+         "id":"Applications\/Release704555520\/Phase589762295",
+         "type":"xlrelease.Phase",
+         "$createdBy":"admin",
+         "$createdAt":"2018-01-04T23:01:25.769+0000",
+         "$lastModifiedBy":"admin",
+         "$lastModifiedAt":"2018-01-04T23:01:25.769+0000",
+         "title":"New Phase",
+         "flagStatus":"OK",
+         "overdueNotified":false,
+         "tasks":[
+            {
+               "id":"Applications\/Release704555520\/Phase589762295\/Task709598791",
+               "type":"xlrelease.ScriptTask",
+               "$createdBy":"admin",
+               "$createdAt":"2018-01-04T23:01:55.546+0000",
+               "$lastModifiedBy":"admin",
+               "$lastModifiedAt":"2018-01-04T23:37:34.640+0000",
+               "title":"Print version",
+               "flagStatus":"OK",
+               "overdueNotified":false,
+               "comments":[
+
+               ],
+               "container":"Applications\/Release704555520\/Phase589762295",
+               "attachments":[
+
+               ],
+               "status":"PLANNED",
+               "waitForScheduledStartDate":true,
+               "delayDuringBlackout":false,
+               "postponedDueToBlackout":false,
+               "hasBeenFlagged":false,
+               "hasBeenDelayed":false,
+               "failuresCount":0,
+               "variableMapping":{
+
+               },
+               "tags":[
+
+               ],
+               "dueSoonNotified":false,
+               "watchers":[
+
+               ],
+               "script":"print \"${imageVersion}\""
+            },
+            {
+               "id":"Applications\/Release704555520\/Phase589762295\/Task777063018",
+               "type":"xlrelease.GateTask",
+               "$createdBy":"admin",
+               "$createdAt":"2018-01-04T23:37:42.057+0000",
+               "$lastModifiedBy":"admin",
+               "$lastModifiedAt":"2018-01-04T23:37:42.057+0000",
+               "title":"Block",
+               "flagStatus":"OK",
+               "overdueNotified":false,
+               "comments":[
+
+               ],
+               "container":"Applications\/Release704555520\/Phase589762295",
+               "attachments":[
+
+               ],
+               "status":"PLANNED",
+               "waitForScheduledStartDate":true,
+               "delayDuringBlackout":false,
+               "postponedDueToBlackout":false,
+               "hasBeenFlagged":false,
+               "hasBeenDelayed":false,
+               "failuresCount":0,
+               "variableMapping":{
+
+               },
+               "tags":[
+
+               ],
+               "dueSoonNotified":false,
+               "watchers":[
+
+               ],
+               "conditions":[
+
+               ],
+               "dependencies":[
+
+               ]
+            }
+         ],
+         "release":"Applications\/Release704555520",
+         "status":"PLANNED"
+      }
+   ],
+   "queryableStartDate":"2018-01-04T16:00:00Z",
+   "realFlagStatus":"OK",
+   "status":"TEMPLATE",
+   "tags":[
+
+   ],
+   "variables":[
+      {
+         "id":"Applications\/Release704555520\/Variable959757523",
+         "type":"xlrelease.StringVariable",
+         "$createdBy":"admin",
+         "$createdAt":"2018-01-04T23:37:30.537+0000",
+         "$lastModifiedBy":"admin",
+         "$lastModifiedAt":"2018-01-04T23:37:30.537+0000",
+         "key":"imageVersion",
+         "requiresValue":true,
+         "showOnReleaseStart":true
+      }
+   ],
+   "calendarPublished":false,
+   "tutorial":false,
+   "abortOnFailure":false,
+   "allowConcurrentReleasesFromTrigger":true,
+   "runningTriggeredReleasesCount":0,
+   "createdFromTrigger":false,
+   "extensions":[
+
+   ],
+   "autoStart":false,
+   "riskScore":"000",
+   "totalRiskScore":"0000",
+   "$metadata":{
+      "security":{
+         "permissions":[
+            "template#edit",
+            "template#view",
+            "template#edit_triggers",
+            "template#edit_security",
+            "template#create_release"
+         ],
+         "teams":[
+            "Template Owner"
+         ]
+      },
+      "globalVariables":{
+         "id":"Configuration\/variables\/global",
+         "type":"xlrelease.GlobalVariables",
+         "$token":"20f05247-c8cb-4b64-9bcf-0ca559ce2825",
+         "$createdAt":"2018-01-04T23:00:37.279+0000",
+         "$lastModifiedAt":"2018-01-04T23:00:37.279+0000",
+         "variables":[
+
+         ]
+      }
+   }
+}]

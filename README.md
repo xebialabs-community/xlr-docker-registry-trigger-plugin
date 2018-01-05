@@ -23,6 +23,8 @@ See the **[XL Release Documentation](https://docs.xebialabs.com/xl-release/index
 
 This plugin is a XL Release plugin that enables triggering new release based on a new docker image version showing up in a V2 registry.
 
+There are many tools that implement Docker V2 Registry: dockerhub, docker registry image (which is included in this repo for testing), Docker Secure Registry, Artifactory, NuGet (I think), RedHat Package Manager.. any many more. This plugin should work with them all.
+
 ## Installation ##
 
 Place the latest released version under the `plugins` subdirectory in the XL Release installation directory.
@@ -31,4 +33,58 @@ This plugin requires XLR 6.0.x+
 
 ## Testing ##
 
-Run `./gradlew runDockerCompose` to spin up an XL Release conainer with this plugin and test data loaded, and a Artifactory docker v2 registry
+This repository contains testing code that can be executed by cloning the repository on your machine. For testing you need to have a docker daemon and docker-compose running on the machine while you are test. Use Google to find out how, nothing specific to XebiaLabs or XL Release needs to be done.
+
+Once you have all prerequisies, run `./gradlew runDockerCompose` to spin up an XL Release conainer with this plugin (+ test data loaded) and a docker v2 registry container.
+
+The template in there that will trigger when a new version of an image with name 'testimage' will be pushed to the registry, which is done from your local machine.
+
+Now open up XL Release (see docker-compose.yml which port, but at time of writing localhost:15516) go into Design > Templates, find the `registry-triggered-template` and click on it, navigate to Triggers in the white dropdown (renders default with 'Release Flow').
+
+![images/template-overview.png](images/template-overview.png)
+
+Open the trigger
+
+![images/triggers-overview.png](images/triggers-overview.png)
+
+Enable it and enter the text `${imageVersion}` in the input field all the way to the bottom, slightly beyond what is captured in the screenshot below (sadly the auto-import of templates prevents this from happening automatically). 
+
+![images/trigger-overview.png](images/trigger-overview.png)
+
+XL Release is set up and waiting for the new versions to appear.
+
+Pull (or build) some image from the hub. Example is ubuntu but you can use any image you like.
+
+````
+docker pull ubuntu
+````
+
+Tag the image so that it points to the registry spun up by docker-compose
+
+````
+docker tag ubuntu localhost:5000/testimage:1
+````
+
+Push it
+
+````
+docker push localhost:5000/testimage:1
+````
+
+A release should have triggered.
+
+
+![images/triggered-release.png](images/triggered-release.png)
+
+And subsequently create new versions as such:
+
+````
+docker tag ubuntu localhost:5000/testimage:2
+docker push localhost:5000/testimage:2
+
+docker tag ubuntu localhost:5000/testimage:3
+docker push localhost:5000/testimage:3
+````
+And so on.
+
+See [here](https://docs.docker.com/registry/#basic-commands)

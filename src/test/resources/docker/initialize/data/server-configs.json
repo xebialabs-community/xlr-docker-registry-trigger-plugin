@@ -11,15 +11,22 @@
   {
     "id": "Configuration/Custom/Configuration2139581",
     "type":"docker.RegistryV2",
-    "title":"dockerRegistryArtifactoryV2",
+    "title":"artifactoryDockerRegistryV2",
     "url":"http://serverName:8081/artifactory/api/docker/docker-local/v2",
     "testImageName":"rhel7.3"
   },  
   {
     "id": "Configuration/Custom/Configuration2139582",
     "type":"docker.RegistryV2",
-    "title":"dockerRegistryRedhatV2",
+    "title":"redhatDockerRegistryV2",
     "url":"http://registry.access.redhat.com/v2",
+    "testImageName":"rhel7.3"
+  },  
+  {
+    "id": "Configuration/Custom/Configuration2139583",
+    "type":"docker.RegistryV2",
+    "title":"dockerRegistryV2",
+    "url":"http://registry:5000/v2",
     "testImageName":"rhel7.3"
   }
 ]

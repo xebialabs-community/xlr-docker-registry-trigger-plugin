@@ -11,7 +11,6 @@
 
 import sys
 import urllib
-import __builtin__
 import com.xhaus.jyson.JysonCodec as json
 from xlrelease.HttpRequest import HttpRequest
 from distutils.version import LooseVersion
@@ -21,7 +20,6 @@ RECORD_CREATED_STATUS  = 201
 
 class DockerRegistryClient(object):
     def __init__(self, httpConnection, username=None, password=None):
-        self.logger = getattr(__builtin__, 'logger', None)
         self.headers        = {}
         self.query_params   = ""
         self.httpConnection = httpConnection
@@ -37,25 +35,28 @@ class DockerRegistryClient(object):
 
     def get_latest_version(self, image_name):
         api_url = '/%s/tags/list' % (image_name)
-        self.logger.debug("Docker Image URL = %s" % (api_url))
         response = self.httpRequest.get(api_url, contentType='application/json', headers = self.headers)
 
         if response.getStatus() == SUCCES_RESULT_STATUS:
             versions_list = json.loads(response.getResponse())['tags']
-            self.logger.debug("Versions founds: %s" % str(versions_list))
+            #print("Versions founds: %s" % str(versions_list))
 
+            # the will always be a 'latest' but that's not helpful to us to see if there's a new version 
             if "latest" in versions_list:
                 versions_list.remove("latest")
             # End if
 
             try:
                 versions_list.sort(key=LooseVersion)
-                self.logger.debug("Tags sorted %s" % str(versions_list))
+                #print("Tags sorted %s" % str(versions_list))
             except Exception, e:
-                self.logger.warn("Failed to sort, ignoring: %s " % str(e))
+                print("Failed to sort, ignoring: %s " % str(e))
             # End try
 
-            return versions_list[-1]
+            if versions_list.amount() > 0
+                return versions_list[-1]
+            else:
+                return None
         else:
             self.logger.error("get_latest_version error %s" % (response))
             self.throw_error(response)
@@ -63,8 +64,8 @@ class DockerRegistryClient(object):
     # End get_latest_version
 
     def throw_error(self, response):
-        self.logger.error("Error from DockerRegistry, HTTP Return: %s\n" % (response.getStatus()))
-        self.logger.error("Detailed error: %s\n" % response.response)
+        print("Error from DockerRegistry, HTTP Return: %s\n" % (response.getStatus()))
+        print("Detailed error: %s\n" % response.response)
         sys.exit(response.response)
 
 

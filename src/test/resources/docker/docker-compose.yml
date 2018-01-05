@@ -1,3 +1,4 @@
+
 #
 # Copyright 2018 XEBIALABS
 #
@@ -8,25 +9,16 @@
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
-import sys, string, time, traceback
-import com.xhaus.jyson.JysonCodec as json
-from docker.DockerRegistryClient import DockerRegistryClient
-
-if server is None:
-    sys.exit("No server provided.")
-
-if imageName is None:
-    sys.exit("No imageName provided.")
-
-client = DockerRegistryClient.create_client(server, username, password)
-
-try:
-    latest_version = client.get_latest_version( imageName )
-
-    triggerState = latest_version
-    imageVersion = triggerState
-
-    print("Setting triggerState/imageVersion %s" % triggerState)
-
-except Exception, e:
-    sys.exit("Failed to find docker image in Registry: [%s]" % str(e))
+registry:
+  image: registry:2
+  ports:
+    - "5000:5000"
+xlr:
+  image: xebialabs/xlr_dev_run:v7.2.0.1
+  volumes:
+    - ~/xl-licenses:/license
+    - ./../../../../:/data
+  ports:
+    - "15516:5516"
+  links:
+    - registry

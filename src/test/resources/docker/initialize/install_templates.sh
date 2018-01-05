@@ -9,4 +9,17 @@
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
-echo "No templates to import"
+SCRIPT=$(readlink -f "$0")
+# Absolute path this script is in, thus /home/user/bin
+SCRIPTPATH=$(dirname "$SCRIPT")
+
+####################### XLR server data
+echo "Load Template"
+#sleep 30
+
+
+wget --http-user=admin --http-password=admin --auth-no-challenge \
+     --header="Accept: application/json" \
+     --header="Content-type: application/json" \
+     --post-file=$SCRIPTPATH/data/template.json \
+    http://localhost:5516/api/v1/templates/import -O /dev/null
