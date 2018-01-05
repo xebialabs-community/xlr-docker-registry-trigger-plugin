@@ -4,6 +4,13 @@ deploy:
   provider: releases
   api_key:
     secure: Q+TLn1Rf5opmdmxcfY12l1Z9geS7IK+HyGR1oZe72wC+OmzxjT4MTObjav4Yk/KA2QXhLwSqFBhRmfLSFdJL8bhsKCk/8N/v9TSTb0c2fFcHRe49wU+z4g9M76Komgywoj2gACobctotgk9rNa/704jWvE3z60vjyKpkwdwYVA6bPcxN9d20yZ2QHQh21OAGq/I4SIm4c3QkHB9CLKRCobhEZaGew62JbKlkhJCymw6ox9ScidvGcm0mynul/D2cG6ww0YlLs8PS2PqqbM7ND+/erl04fqtvp2n8w+MqRGX6Tms/wqWUeaXriSmqgeREJIhPPtTfBfQKWAmIs+M57+qAxvprdbxn+x2OyfGbNb02Mq/0IPf1Exii1km6UjctHC5TvAMEyDcWK50U5H+QWDfYVwsBdcY8Q5q5Ummia5d6D7G8x2iiRZwqvZRfpdz8DEbsnD7gMp8siazQNcO0HJ1kPWiUEPq5unxKgf8o5E0jKARNkyn99CaRccaAGGYNHFiDxaLM7zQPMnFX3dopDMNsCH2vSiYGZWQOE1HLeOHrZE6HvvuUmRVvfWHk6BYpGCJ1vm1XJgAxB/EQ/kGI+Bxh/HKteKSeXuD0LwHvpYE3olYZbBuasbSsZmVjuY3nW781NUpSvpg+mwQYzNL1CdF+uR1beOpzKlOii+1hkjQ=
-  file: build/libs/xlr-docker-registry-trigger-plugin-1.0.0.jar
+  file_glob: true
+  file: build/libs/*
   on:
     repo: xebialabs-community/xlr-docker-registry-trigger-plugin
+    all_branches: true
+    tags: true
+notifications:
+  hipchat:
+    rooms:
+      secure: dldBcDS/lR+4AVYCWxWZ1g9hohq4npXK4aMBZM1EZod5jeVYNyEeotGKgT4SgxhcQSYKr/z14kAqeH8zo7w/aEC/c86bnI4o5sVQ7AGcRVkEiHuDinBqhxmH+g3WM+mT3UNr8MnfJ37zSqSx4I5rx9C9In3jJ/7fKxT11IKhSDNZ/4DFY+CGgbRnl5gAy7k/XidT0KEACHUjXBDZXMg6SIr7TGXyxFUufhREdtilc4g2RDCBEqP/BBUfRgXlR6QRgYmPwc5yzG5FZA+/P1VLRr2JkAwhrycLWp+3Sf/bKTTHEG2bm4BDzSzb10FwU3wg9eXGiOvjjJ8KLwWi7+IkzyagNbgBi7SEtzrmQgVOtX/2nmvZgEz1b6cGicMFXCo6NXHAFR7IsKQARtHQ8Yos0dXXczXFW0CQkddWrhUDIOq2SyZrgKdsLOWIpJLK62//wpIIr44LIjZcMaO6GbdjkKZ0XYhuKN4vfPpzlninrEEzomud6SV0BVGm0av1n/2tZgyd5zee79aIhFEwNXERdL52mFO6Hd76ayCBNDjM+NMpVAABCvLNHDmp2iXd5VH4AnIKWtoaTs9oaraYfXRSWIyg9CymUws9uQ46K6DPVGGxZYjWgE4e7P6Pql5Fqh8FL14Y9/6dlMnRfBhuLfMGDrlc1pptMmVUxKExMfgmFn8=
