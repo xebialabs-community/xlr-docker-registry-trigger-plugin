@@ -23,7 +23,7 @@ See the **[XL Release Documentation](https://docs.xebialabs.com/xl-release/index
 
 This plugin is a XL Release plugin that enables triggering new release based on a new docker image version showing up in a V2 registry.
 
-There are many tools that implement Docker V2 Registry: dockerhub, docker registry image (which is included in this repo for testing), Docker Secure Registry, Artifactory, NuGet (I think), RedHat Package Manager.. any many more. This plugin should work with them all.
+There are many tools that implement Docker V2 Registry: dockerhub, docker registry image (which is included in this repo for testing), Docker Secure Registry, Artifactory, RedHat Package Manager, [OpenShift](https://docs.openshift.com/container-platform/latest/install_config/registry/accessing_registry.html).. any many more. This plugin should work with them all.
 
 ## Installation ##
 
