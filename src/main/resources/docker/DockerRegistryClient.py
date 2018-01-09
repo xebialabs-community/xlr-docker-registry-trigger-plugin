@@ -58,7 +58,7 @@ class DockerRegistryClient(object):
             else:
                 return None
         else:
-            self.logger.error("get_latest_version error %s" % (response))
+            print("get_latest_version error %s" % (response))
             self.throw_error(response)
         # End if
     # End get_latest_version
