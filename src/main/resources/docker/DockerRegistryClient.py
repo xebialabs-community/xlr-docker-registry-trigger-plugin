@@ -53,7 +53,7 @@ class DockerRegistryClient(object):
                 print("Failed to sort, ignoring: %s " % str(e))
             # End try
 
-            if versions_list.amount() > 0:
+            if len(versions_list) > 0:
                 return versions_list[-1]
             else:
                 return None
