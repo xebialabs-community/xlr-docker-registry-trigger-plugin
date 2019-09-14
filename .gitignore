@@ -6,3 +6,7 @@ src/downloads/*
 *.ipr
 *.iws
 supervisord.*
+.classpath
+.project
+.settings/
+bin/

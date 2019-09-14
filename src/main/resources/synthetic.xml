@@ -17,21 +17,29 @@
     <type type="docker.PublishedImage" extends="xlrelease.ReleaseTrigger" description="Triggers release when a new version of a docker image is published to an docker (v2) registry">
         <!-- common -->
         <property name="imageName" required="true" description="Name of the docker image"/>
-        
         <!-- repository -->
         <property name="server" category="Registry" referenced-type="docker.RegistryV2" kind="ci" description="Docker registry to poll"/>
-
         <property name="username" category="Registry" default="" required="false" description="Custom username to override global server configuration"/>
         <property name="password" category="Registry" default="" required="false" password="true" description="Custom password to override global server configuration"/>
-        
         <!-- output variables -->
         <property name="imageVersion" category="variables" required="false" description="Latest image version."/>
     </type>
 
     <type type="docker.RegistryV2" extends="configuration.HttpConnection">
-
         <property name="testImageName" category="input" required="true" description="Package to query versions for" default="rhel7.3" />
- 
+        <property name="skipSslVerification" category="input" label="Skip SSL Check" kind="boolean" default="false" required="false" description="Skip the SSL certificate check"/>
+    </type>
+
+    <type type="docker.TagsTile" label="Docker Repository Tags Tile" extends="xlrelease.Tile" description="Visualize repository tags for a Docker image registry">
+        <property default="release,folder,global" hidden="true" name="supportedScopes" kind="list_of_string"/>
+        <property name="uri" hidden="true" default="TagsTile/summary-view.html"/>
+        <property name="width" kind="integer" default="2"/>
+        <property name="height" kind="integer" default="2"/>
+        <property name="title" category="input" description="Tile title" default="Docker Registry Tags"/>
+        <property name="server" category="input" label="Docker Registry" referenced-type="docker.RegistryV2" kind="ci" description="Docker registry to scan"/>
+        <property name="username" category="input" required="false" description="Optionally, provide a username to override the global server configuration"/>
+        <property name="password" category="input" required="false" password="true" description="Optionally, provide a password to override the global server configuration"/>
+        <property name="repositories" category="input" required="false" kind="set_of_string" description="Optionally, only show tags for a set of repositories.  If this field is left blank, all repositories will be checked."/>
     </type>
 
 </synthetic>

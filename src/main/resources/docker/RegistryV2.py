@@ -11,12 +11,14 @@
 from docker.DockerRegistryClient import DockerRegistryClient
 
 params = {
-    'url': configuration.url
-    , 'username': configuration.username, 'password': configuration.password
-    , 'proxyHost': configuration.proxyHost, 'proxyPort': configuration.proxyPort
+    'url': configuration.url,
+    'username': configuration.username,
+    'password': configuration.password,
+    'proxyHost': configuration.proxyHost,
+    'proxyPort': configuration.proxyPort
 }
 
-client = DockerRegistryClient.create_client(params)
+client = DockerRegistryClient.create_client(params, configuration.skipSslVerification is False)
 
 latest_version = client.get_latest_version(configuration.testImageName)
 

@@ -15,18 +15,6 @@ from docker.DockerRegistryClient import DockerRegistryClient
 if server is None:
     sys.exit("No server provided.")
 
-if imageName is None:
-    sys.exit("No imageName provided.")
-
 client = DockerRegistryClient.create_client(server, server["skipSslVerification"] is False, username, password)
 
-try:
-    latest_version = client.get_latest_version( imageName )
-
-    triggerState = latest_version
-    imageVersion = triggerState
-
-    print("Setting triggerState/imageVersion %s" % triggerState)
-
-except Exception, e:
-    sys.exit("Failed to find docker image in Registry: [%s]" % str(e))
+data = {"tags": client.get_plot_data(repositories)}
