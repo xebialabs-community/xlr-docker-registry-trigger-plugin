@@ -1,5 +1,5 @@
 #
-# Copyright 2019 XEBIALABS
+# Copyright 2020 XEBIALABS
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 #
@@ -8,7 +8,7 @@
 # THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #
 
-import re
+import re, json
 import urllib
 
 from xlrelease.HttpResponse import HttpResponse
@@ -25,6 +25,9 @@ from org.apache.http.impl.client import HttpClients
 from org.apache.http.conn.ssl import SSLContextBuilder, SSLConnectionSocketFactory, TrustStrategy
 
 from com.xebialabs.xlrelease.domain.configuration import HttpConnection
+
+import org.slf4j.LoggerFactory as LoggerFactory
+import org.slf4j.Logger as Logger
 
 class TrustAllStrategy(TrustStrategy):
     def isTrusted(self, chain, authType):
@@ -44,6 +47,8 @@ class HttpRequest:
         self.username = username
         self.password = password
         self.verify   = verify
+        self.logger = LoggerFactory.getLogger("com.xebialabs.dockerregistryv2-plugin")
+
 
     def doRequest(self, **options):
         """
@@ -68,7 +73,9 @@ class HttpRequest:
             options.get('body', ''),
             options.get('contentType', None),
             options.get('headers', None))
-        return self.executeRequest(request)
+        response = self.executeRequest(request)
+        # Added extra logic for anonymous user scenarios
+        return self.processAnonymous(request, response)
 
 
     def get(self, context, **options):
@@ -153,8 +160,10 @@ class HttpRequest:
         options['body'] = body
         return self.doRequest(**options)
 
-    def buildRequest(self, method, context, body, contentType, headers):
-        url = self.quote(self.createPath(self.params.getUrl(), context))
+    def buildRequest(self, method, context, body, contentType, headers, newURL=None):
+        url = newURL if newURL else self.quote(self.createPath(self.params.getUrl(), context))
+        logger.info("inside buildRequest")
+        logger.info(url)
 
         method = method.upper()
 
@@ -197,6 +206,18 @@ class HttpRequest:
     def quote(self, url):
         return urllib.quote(url, ':/?&=%')
 
+
+    def getCredentials(self):
+        username = None
+        password = None
+        if self.username:
+            username = self.username
+            password = self.password
+        elif self.params.getUsername():
+            username = self.params.getUsername()
+            password = self.params.getPassword()
+        return [username,password]
+            
 
     def setCredentials(self, request):
         if self.username:
@@ -248,8 +269,8 @@ class HttpRequest:
             result = EntityUtils.toString(entity, "UTF-8") if entity else None
             headers = response.getAllHeaders()
             EntityUtils.consume(entity)
-
             return HttpResponse(status, result, headers)
+
         finally:
             if response:
                 response.close()
@@ -263,3 +284,22 @@ class HttpRequest:
         socketfactory = SSLConnectionSocketFactory(builder.build(), tls_versions, None, SSLConnectionSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER)
         # print 'DEBUG: Created custom HttpClient to trust all certs\n'
         return HttpClients.custom().setSSLSocketFactory(socketfactory).build()
+    
+    # putting logic for anonymous token for pulling tag information without credentials
+    # https://docs.docker.com/registry/spec/auth/token/#how-to-authenticate
+    def processAnonymous(self, request, response):
+        credentials = self.getCredentials()
+        if credentials[0] is None and credentials[1] is None:
+            if response.headers.get('Www-Authenticate'):
+                logger.info("Building First request to fetch Auth URL for anonymous query")
+                newURL = response.headers['Www-Authenticate'].lstrip("Bearer realm=").replace("\"","").replace("token,","token?").replace(",scope","&scope")
+                tokenRequest = self.buildRequest('GET',None,None,None, None, newURL)
+                newResponse = self.executeRequest(tokenRequest)
+                data = json.loads(newResponse.getResponse())
+                logger.info("Building second request to pass token from the auth Response for actual query")
+                self.setHeaders(request, {"Authorization" : "Bearer %s" % data["token"]})
+                response = self.executeRequest(request)
+        return response
+
+
+ 

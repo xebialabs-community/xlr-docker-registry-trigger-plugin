@@ -43,6 +43,13 @@ The template in there that will trigger when a new version of an image with name
 
 ### Finish XL Release test setup ###
 
+####IMPORTANT
+
+Examples of docker registry url for configuration  
+
+* http://localhost:5000/v2/ 
+* https://registry.hub.docker.com/v2 
+
 Now open up XL Release (see docker-compose.yml which port, but at time of writing localhost:15516) go into Design > Templates, find the `registry-triggered-template` and click on it, navigate to Triggers in the white dropdown (renders default with 'Release Flow').
 
 ![images/template-overview.png](images/template-overview.png)
