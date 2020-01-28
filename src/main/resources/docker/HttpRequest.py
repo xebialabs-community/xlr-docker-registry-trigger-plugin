@@ -162,8 +162,7 @@ class HttpRequest:
 
     def buildRequest(self, method, context, body, contentType, headers, newURL=None):
         url = newURL if newURL else self.quote(self.createPath(self.params.getUrl(), context))
-        logger.info("inside buildRequest")
-        logger.info(url)
+        self.logger.debug(url)
 
         method = method.upper()
 
@@ -291,12 +290,12 @@ class HttpRequest:
         credentials = self.getCredentials()
         if credentials[0] is None and credentials[1] is None:
             if response.headers.get('Www-Authenticate'):
-                logger.info("Building First request to fetch Auth URL for anonymous query")
+                self.logger.debug("Building First request to fetch Auth URL for anonymous query")
                 newURL = response.headers['Www-Authenticate'].lstrip("Bearer realm=").replace("\"","").replace("token,","token?").replace(",scope","&scope")
                 tokenRequest = self.buildRequest('GET',None,None,None, None, newURL)
                 newResponse = self.executeRequest(tokenRequest)
                 data = json.loads(newResponse.getResponse())
-                logger.info("Building second request to pass token from the auth Response for actual query")
+                self.logger.debug("Building second request to pass token from the auth Response for actual query")
                 self.setHeaders(request, {"Authorization" : "Bearer %s" % data["token"]})
                 response = self.executeRequest(request)
         return response

@@ -10,6 +10,7 @@
 
 from docker.DockerRegistryClient import DockerRegistryClient
 
+
 params = {
     'url': configuration.url,
     'username': configuration.username,
@@ -17,6 +18,7 @@ params = {
     'proxyHost': configuration.proxyHost,
     'proxyPort': configuration.proxyPort
 }
+
 
 client = DockerRegistryClient.create_client(params, configuration.skipSslVerification is False)
 
